@@ -19,7 +19,8 @@ import lombok.Data;
 @Table(name ="subcategares")
 @Data
 
-public class SubCategory {
+public class
+SubCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  id;
@@ -37,7 +38,4 @@ public class SubCategory {
     @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
     private List<Book> books;
 
-  
-
-    
 }
