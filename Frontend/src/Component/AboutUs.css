@@ -1,0 +1,36 @@
+/* AboutUs.css */
+
+.about-us-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+/*   
+  .about-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  } */
+  
+  /* .aboutimg{
+    max-width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 20px;
+  } */
+  
+  p {
+    font-size: 1.1rem;
+  }
+  
