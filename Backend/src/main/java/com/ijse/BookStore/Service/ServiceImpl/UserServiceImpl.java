@@ -30,30 +30,27 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Email is required");
         }
 
-
         if (userRepository.existsByUsername(registrationDTO.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
-
 
         if (userRepository.existsByEmail(registrationDTO.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
-
         User user = new User();
         user.setUsername(registrationDTO.getUsername().trim());
         user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
         user.setEmail(registrationDTO.getEmail().trim().toLowerCase());
-        user.setRole(UserRole.USER); // Set default role as USER
-
+        
+        // Set the role from the DTO, defaulting to USER if not specified
+        user.setRole(registrationDTO.getRole() != null ? registrationDTO.getRole() : UserRole.USER);
 
         return userRepository.save(user);
     }
 
     @Override
     public User loginUser(LoginDTO loginDTO) {
-
         if (loginDTO.getUsername() == null || loginDTO.getUsername().trim().isEmpty()) {
             throw new RuntimeException("Username is required");
         }
@@ -61,10 +58,8 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Password is required");
         }
 
-
         User user = userRepository.findByUsername(loginDTO.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
-
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid username or password");

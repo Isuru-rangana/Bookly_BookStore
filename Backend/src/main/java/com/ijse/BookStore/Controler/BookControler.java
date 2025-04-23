@@ -2,6 +2,7 @@ package com.ijse.BookStore.Controler;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.io.IOException;
 
 import com.ijse.BookStore.Model.Book;
 import com.ijse.BookStore.Service.BookService;
@@ -18,17 +19,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin
-
 public class BookControler {
     private BookService bookService;
 
     @Autowired
     public BookControler(BookService bookService){
-        this.bookService =bookService;
+        this.bookService = bookService;
     } 
+
     @GetMapping("/books")
     public ResponseEntity<List<Book>> getAllBook(){
         return ResponseEntity.status(HttpStatus.OK).body(bookService.getAllBook());
@@ -37,56 +39,79 @@ public class BookControler {
     @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id){
         try {
-            Book book =bookService.getBookById(id);
+            Book book = bookService.getBookById(id);
             return ResponseEntity.status(HttpStatus.OK).body(book); 
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-
-
-        }
-        catch(Exception  e){
+        } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     
     @PostMapping("/books")
-    public ResponseEntity<Book>creatBook(@RequestBody Book book  ){
+    public ResponseEntity<Book> creatBook(
+            @RequestParam("image") MultipartFile image,
+            @RequestParam("bookname") String bookname,
+            @RequestParam("title") String title,
+            @RequestParam("author") String author,
+            @RequestParam("price") double price,
+            @RequestParam("description") String description,
+            @RequestParam(value = "category", required = false) Long categoryId,
+            @RequestParam(value = "subcategory", required = false) Long subcategoryId) {
         try {
-            System.out.println(book);
-
-            Book newBook =bookService.creatBook(book);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
+            Book book = new Book();
+            book.setBookname(bookname);
+            book.setTitle(title);
+            book.setAuthor(author);
+            book.setPrice(price);
+            book.setDescription(description);
             
+            Book newBook = bookService.creatBook(book, image);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-
-            
         }
     }
+
     @PutMapping("/books/{id}")
-    public ResponseEntity<Book>updateBook(@PathVariable Long id,@RequestBody Book book){
+    public ResponseEntity<Book> updateBook(
+            @PathVariable Long id,
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam("bookname") String bookname,
+            @RequestParam("title") String title,
+            @RequestParam("author") String author,
+            @RequestParam("price") double price,
+            @RequestParam("description") String description,
+            @RequestParam(value = "category", required = false) Long categoryId,
+            @RequestParam(value = "subcategory", required = false) Long subcategoryId) {
         try {
-            Book updateBook = bookService.updateBook(id, book);
-            return  ResponseEntity.status(HttpStatus.OK).body(updateBook);
+            Book book = new Book();
+            book.setBookname(bookname);
+            book.setTitle(title);
+            book.setAuthor(author);
+            book.setPrice(price);
+            book.setDescription(description);
             
+            Book updatedBook = bookService.updateBook(id, book, image);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
         } catch(NoSuchElementException e) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        catch(Exception e){
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch(IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
     @DeleteMapping("/books/{id}")
-    public ResponseEntity<Void>deleteBook(@PathVariable Long id){
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id){
         try {
             bookService.deleteBook(id);
-            return  ResponseEntity.status(HttpStatus.OK).body(null); 
-            
+            return ResponseEntity.status(HttpStatus.OK).body(null); 
         } catch (Exception e) {
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
 }
