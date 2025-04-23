@@ -1,9 +1,7 @@
 package com.ijse.BookStore.Model;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,8 +13,6 @@ import lombok.Data;
 @Entity
 @Table(name ="books")
 @Data
-
-
 public class Book {
 
     @Id
@@ -37,12 +33,6 @@ public class Book {
     @Column(nullable = false)
     private String description;
 
-    @Column
-    private String Category;
-
-    @Column
-    private String Subcategory;
-    
      @Column
      private String image; 
 
@@ -54,5 +44,4 @@ public class Book {
     @JoinColumn(name = "subcategory_id")
     private SubCategory subcategory;
 
-    
 }

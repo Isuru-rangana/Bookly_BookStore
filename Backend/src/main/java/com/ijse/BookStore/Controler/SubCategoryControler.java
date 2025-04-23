@@ -22,14 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-
 public class SubCategoryControler {
     private SubCategoryService subcategoryService;
-
-    @Autowired
-    public SubCategoryControler(SubCategoryService subcategoryService){
-        this.subcategoryService = subcategoryService;
-    }
 
     @GetMapping("/subcategores")
     public ResponseEntity<List<SubCategory>> getAllSubCategory(){

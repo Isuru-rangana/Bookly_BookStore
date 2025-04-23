@@ -58,11 +58,4 @@ public class BookServiceImpl implements BookService {
         bookRepositary.deleteById(id);
     }
 
-    // @Override
-    // public List<Book> getBooksByCategory(String category) {
-    //     return BookRepositary.findByCategory(category);
-    // }
-    
-
-    
 }
