@@ -1,14 +1,14 @@
-package com.ijse.bookstore.Service;
+package com.ijse.BookStore.Service.ServiceImpl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 
+import com.ijse.BookStore.Model.Category;
+import com.ijse.BookStore.Repositary.CategoryRepositary;
+import com.ijse.BookStore.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.ijse.bookstore.Enrirty.Category;
-import com.ijse.bookstore.Repositary.CategoryRepositary;
 
 
 @Service

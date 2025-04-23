@@ -1,4 +1,4 @@
-package com.ijse.bookstore.Enrirty;
+package com.ijse.BookStore.Model;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
@@ -18,8 +18,8 @@ import lombok.Data;
 
 
 public class Book {
+
     @Id
-  
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
@@ -53,17 +53,6 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subcategory;
-
-
-    // @ManyToOne
-    // private Order order;
-
-
-   
-
-    
-    
-
 
     
 }

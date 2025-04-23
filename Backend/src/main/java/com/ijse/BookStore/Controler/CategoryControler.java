@@ -1,8 +1,10 @@
-package com.ijse.bookstore.Controler;
+package com.ijse.BookStore.Controler;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.ijse.BookStore.Model.Category;
+import com.ijse.BookStore.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -15,9 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ijse.bookstore.Enrirty.Category;
-import com.ijse.bookstore.Service.CategoryService;
 
 
 
@@ -89,9 +88,5 @@ public class CategoryControler {
         }
     }
 
-    
 
-
-
-    
 }

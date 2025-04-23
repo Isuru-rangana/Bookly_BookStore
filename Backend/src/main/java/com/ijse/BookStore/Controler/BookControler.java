@@ -1,8 +1,10 @@
-package com.ijse.bookstore.Controler;
+package com.ijse.BookStore.Controler;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.ijse.BookStore.Model.Book;
+import com.ijse.BookStore.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -16,10 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ijse.bookstore.Enrirty.Book;
-import com.ijse.bookstore.Service.BookService;
-
 
 @RestController
 @CrossOrigin
@@ -91,19 +89,4 @@ public class BookControler {
         }
     }
 
-
-
-    // @GetMapping
-    // public ResponseEntity<List<Book>> getBooksByCategory(@RequestParam String category) {
-    //     List<Book> books = bookService.getBooksByCategory(category);
-    //     return new ResponseEntity<>(books, HttpStatus.OK);
-    // }
-
-
-
-
-
-
-
-    
 }

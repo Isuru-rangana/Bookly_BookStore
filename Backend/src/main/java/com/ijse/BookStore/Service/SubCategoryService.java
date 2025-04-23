@@ -1,18 +1,10 @@
-package com.ijse.bookstore.Service;
+package com.ijse.BookStore.Service;
 
 import java.util.List;
 
+import com.ijse.BookStore.Model.SubCategory;
 import org.springframework.stereotype.Service;
-
-import com.ijse.bookstore.Enrirty.SubCategory;
-
-
-
 @Service
-
-
-
-
 public interface SubCategoryService {
     List<SubCategory> getAllSubCategory();
     SubCategory getSubCategoryById(Long id);

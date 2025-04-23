@@ -1,13 +1,11 @@
-package com.ijse.bookstore.Service;
+package com.ijse.BookStore.Service;
 
 import java.util.List;
 
+import com.ijse.BookStore.Model.Order;
 import org.springframework.stereotype.Service;
 
-import com.ijse.bookstore.Enrirty.Order;
-
 @Service
-
 
 public interface OrderService {
     Order createOrder(Order order);

@@ -1,12 +1,12 @@
-package com.ijse.bookstore.Service;
+package com.ijse.BookStore.Service.ServiceImpl;
 
 import java.util.List;
 
+import com.ijse.BookStore.Model.Order;
+import com.ijse.BookStore.Repositary.OrderRepositary;
+import com.ijse.BookStore.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.ijse.bookstore.Enrirty.Order;
-import com.ijse.bookstore.Repositary.OrderRepositary;
 
 @Service
 public class OrderServiceImpl implements OrderService {

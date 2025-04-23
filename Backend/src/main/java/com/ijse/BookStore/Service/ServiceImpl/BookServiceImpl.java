@@ -1,20 +1,19 @@
-package com.ijse.bookstore.Service;
+package com.ijse.BookStore.Service.ServiceImpl;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 
+import com.ijse.BookStore.Model.Book;
+import com.ijse.BookStore.Repositary.BookRepositary;
+import com.ijse.BookStore.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.ijse.bookstore.Enrirty.Book;
-import com.ijse.bookstore.Repositary.BookRepositary;
-
 
 
 
 @Service
 
-public class BookServiceImpl implements BookService  {
+public class BookServiceImpl implements BookService {
     private BookRepositary bookRepositary;
 
     @Autowired
@@ -48,9 +47,7 @@ public class BookServiceImpl implements BookService  {
         existingBook.setAuthor(book.getAuthor());
         existingBook.setPrice(book.getPrice());
         existingBook.setDescription(book.getDescription());
-        existingBook.setCategory(book.getCategory());
-        existingBook.setSubcategory(book.getSubcategory());
-      
+
          
         return bookRepositary.save(existingBook);
 

@@ -1,4 +1,4 @@
-package com.ijse.BookApp;
+package com.ijse.BookStore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

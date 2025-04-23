@@ -1,4 +1,4 @@
-package com.ijse.bookstore.Enrirty;
+package com.ijse.BookStore.Model;
 
 
 
