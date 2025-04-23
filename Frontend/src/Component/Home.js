@@ -1,79 +1,188 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FaBook, FaUsers, FaPen, FaArrowUp, FaEnvelope, FaStar } from 'react-icons/fa';
+import './Home.css';
 
-import Nave2 from './Image/Nave2.jpg'
+function Home() {
+  const [email, setEmail] = useState('');
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
- import './Home.css'
-import Header from "./Header";
+  const featuredBooks = [
+    {
+      id: 1,
+      title: "The Art of Programming",
+      description: "A comprehensive guide to modern programming practices and patterns.",
+      image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-1.2.1",
+      rating: 4.8,
+      author: "John Smith"
+    },
+    {
+      id: 2,
+      title: "Digital Marketing Essentials",
+      description: "Learn the fundamentals of digital marketing in the modern age.",
+      image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1",
+      rating: 4.6,
+      author: "Emma Johnson"
+    },
+    {
+      id: 3,
+      title: "Business Strategy",
+      description: "Strategic thinking and planning for business success.",
+      image: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-1.2.1",
+      rating: 4.9,
+      author: "Michael Brown"
+    }
+  ];
 
-function Home(){
-  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        prevIndex === featuredBooks.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
 
+    return () => clearInterval(interval);
+  }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollButton(window.scrollY > 300);
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    alert('Thank you for subscribing!');
+    setEmail('');
+  };
 
-    
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-    return(
+  const stats = [
+    { icon: <FaBook />, count: "10,000+", label: "Books Available" },
+    { icon: <FaUsers />, count: "50,000+", label: "Active Readers" },
+    { icon: <FaPen />, count: "1,000+", label: "Authors" }
+  ];
 
-    
-        <div>
-            <ul>
-  <li><a class="active" href="#home">Home</a></li>
-  <li><a href="#news">News</a></li>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="#about">About</a></li>
-  <li><a href="#about">About</a></li>
-  <li><a href="#about">About</a></li>
-  <li><a href="#about">About</a></li>
-  <li><a href="#contact">Contact</a></li>
-</ul>
+  return (
+    <div>
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-content">
+          <h1>Discover Your Next Favorite Book</h1>
+          <p>Explore our vast collection of books across various genres</p>
+          <Link to="/books" className="cta-button">
+            Browse Books
+          </Link>
+        </div>
+      </section>
 
-<div className="contener">
+      {/* Stats Section */}
+      <section className="stats-section">
+        <div className="stats-container">
+          {stats.map((stat, index) => (
+            <div key={index} className="stat-item">
+              <div className="stat-icon">{stat.icon}</div>
+              <h3>{stat.count}</h3>
+              <p>{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-<a href="https://www.mythrillfiction.com/the-dark-rider" alt="Mythrill" target="_blank">
-  <div class="card">
-    <div class="wrapper">
-      <img src="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg" class="cover-image" />
+      {/* Featured Books Section */}
+      <section className="featured-books">
+        <h2>Featured Books</h2>
+        <div className="book-grid">
+          {featuredBooks.map((book, index) => (
+            <div 
+              key={book.id} 
+              className={`book-card ${index === currentIndex ? 'active' : ''}`}
+            >
+              <div className="book-image-wrapper">
+                <img src={book.image} alt={book.title} className="book-cover" />
+                <div className="book-overlay">
+                  <div className="book-rating">
+                    <FaStar /> {book.rating}
+                  </div>
+                </div>
+              </div>
+              <div className="book-info">
+                <h3>{book.title}</h3>
+                <p className="book-author">By {book.author}</p>
+                <p>{book.description}</p>
+                <Link to={`/book/${book.id}`} className="read-more">
+                  Read More
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="categories">
+        <h2>Popular Categories</h2>
+        <div className="category-grid">
+          <div className="category-card">
+            <div className="category-content">
+              <h3>Fiction</h3>
+              <p>Explore imaginative worlds and compelling stories</p>
+              <Link to="/category/fiction" className="category-link">
+                View Books
+              </Link>
+            </div>
+          </div>
+          <div className="category-card">
+            <div className="category-content">
+              <h3>Non-Fiction</h3>
+              <p>Discover real-world knowledge and insights</p>
+              <Link to="/category/non-fiction" className="category-link">
+                View Books
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="newsletter">
+        <div className="newsletter-content">
+          <h2>Stay Updated</h2>
+          <p>Subscribe to our newsletter for the latest book releases and updates</p>
+          <form onSubmit={handleSubscribe} className="newsletter-form">
+            <div className="input-group">
+              <FaEnvelope className="input-icon" />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="subscribe-button">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* Scroll to Top Button */}
+      <button
+        className={`scroll-to-top ${showScrollButton ? 'visible' : ''}`}
+        onClick={scrollToTop}
+      >
+        <FaArrowUp />
+      </button>
     </div>
-    <img src="https://ggayane.github.io/css-experiments/cards/dark_rider-title.png" class="title" />
-    <img src="https://ggayane.github.io/css-experiments/cards/dark_rider-character.webp" class="character" />
-  </div>
-</a>
-</div>
-
-<div className="contener">
-<a href="https://www.mythrillfiction.com/force-mage" alt="Mythrill" target="_blank">
-  <div class="card">
-    <div class="wrapper">
-      <img src="https://ggayane.github.io/css-experiments/cards/force_mage-cover.jpg" class="cover-image" />
-    </div>
-    <img src="https://ggayane.github.io/css-experiments/cards/force_mage-title.png" class="title" />
-    <img src="https://ggayane.github.io/css-experiments/cards/force_mage-character.webp" class="character" />
-  </div>
-</a>
-
-</div>
-
-
-<div className="contener">
-<a href="https://www.mythrillfiction.com/force-mage" alt="Mythrill" target="_blank">
-  <div class="card">
-    <div class="wrapper">
-      <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fillustrations%2Fai-generated-book-cover-7638030%2F&psig=AOvVaw2ZnDPzrOnWFqPyllD4AB1d&ust=1698317589844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNCKhZeEkYIDFQAAAAAdAAAAABAE" class="cover-image" />
-    </div>
-    <img src="https://e7.pngegg.com/pngimages/289/84/png-clipart-the-jungle-book-shere-khan-youtube-bagheera-the-walt-disney-company-book-title-text-logo.png" class="title" />
-    <img src="https://tmpfiles.nohat.cc/m2i8H7G6b1m2m2Z5.png" class="character" />
-  </div>
-</a>
-
-</div>
-        
-         
-    </div>
-
-    );
-
+  );
 }
 
 export default Home;

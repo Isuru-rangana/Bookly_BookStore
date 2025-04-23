@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import Header from "./Header";
 import Cart from "./Cart";
 import BookCard from "./BookCard";
 import Slideshow from "./Slideshow";
-import Footer from "./Footer";
-
-
-
 
 function Front() {
   const [showCart, setShowCart] = useState(false);
@@ -48,13 +43,12 @@ function Front() {
 
   return (
     <div>
-
-      <Header size={cart.length} setShow={showCart ? handleHideCart : handleShowCart} />
       <Slideshow/>
-      
-      {showCart ? <Cart cart={cart} setCart={setCart} handleChange={handleChange} /> : <BookCard handleAddToCart={handleAddToCart} />}
+      {showCart ? 
+        <Cart cart={cart} setCart={setCart} handleChange={handleChange} /> : 
+        <BookCard handleAddToCart={handleAddToCart} />
+      }
       {warning && <div className="warning">Item is already added to your cart</div>}
-      <Footer/>
     </div>
   );
 }

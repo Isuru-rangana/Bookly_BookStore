@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {BrowserRouter,Route,Routes} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import Header from './Component/Header';
+import Layout from './layouts/Layout';
 import Home from './Component/Home';
 import Slideshow from './Component/Slideshow';
 import BookAdd from './Component/BookAdd';
@@ -14,62 +14,39 @@ import Front from './Component/Front';
 import AddBook from './Component/AddBook';
 import Contactus from './Component/Contactus';
 import AboutUs from './Component/About Us';
-import Footer from './Component/Footer';
-
-
-
-
 
 function App() {
-
   const [cart, setCart] = useState([]);
-
+  const [showCart, setShowCart] = useState(false);
 
   function addToCart(book) {
     setCart([...cart, book]);
   }
-  
-  
-
 
   return (
-    <div className="App">
-
-<BrowserRouter> 
-
-<Routes>
-<Route path='/Header'exact Component={Header}/>
-      
-      <Route path='/Home'exact Component={Home}/>
-
-      <Route path='/Footer'exact Component={Footer}/>
-      <Route path='/contact'exact Component={Contactus}/>
-      <Route path='/About'exact Component={AboutUs}/>
-
-
-      <Route path='/Slider'exact Component={Slideshow}/>
-      <Route path='/Bookadd'exact Component={BookAdd}/>
-      <Route path='/AddCategory'exact Component={AddCategory}/>
-      <Route path='/Books'exact Component={Allbook}/>
-     
-
-      <Route path='/Book details/:id'element={<BookMore/>}/>
-      <Route path="/ShoppingCart" element={<ShoppingCart cart={cart} setCart={setCart} />} />
-      <Route path='/Front'exact Component={Front}/>
-      <Route path='/Addbook'exact Component={AddBook}/>
-
-</Routes>
-
-
-
-
-</BrowserRouter>
-    
-
-
-
-     
-    </div>
+    <Router>
+      <Layout cartSize={cart.length} setShowCart={setShowCart}>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/slideshow" element={<Slideshow />} />
+            <Route path="/bookadd" element={<BookAdd />} />
+            <Route path="/addcategory" element={<AddCategory />} />
+            <Route path="/allbook" element={<Allbook />} />
+            <Route path="/bookcard" element={<BookCard addToCart={addToCart} />} />
+            <Route path="/bookmore" element={<BookMore />} />
+            <Route path="/cart" element={<ShoppingCart cart={cart} />} />
+            <Route path="/front" element={<Front />} />
+            <Route path="/addbook" element={<AddBook />} />
+            <Route path="/contactus" element={<Contactus />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+            
+            {/* Redirect unknown routes to home */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
+      </Layout>
+    </Router>
   );
 }
 
