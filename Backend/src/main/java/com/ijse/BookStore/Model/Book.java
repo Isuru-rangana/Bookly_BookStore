@@ -11,37 +11,38 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name ="books")
+@Table(name = "books")
 @Data
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
-    private String bookname;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    private String title;
-    
-    @Column(nullable = false)
-    private String author;
+  @Column(nullable = false)
+  private String bookName;
 
-    @Column(nullable = false)
-    private double price;
-    
-    @Column(nullable = false)
-    private String description;
+  @Column(nullable = false)
+  private String title;
 
-     @Column
-     private String image; 
+  @Column(nullable = false)
+  private String author;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+  @Column(nullable = false)
+  private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "subcategory_id")
-    private SubCategory subcategory;
+  @Column(nullable = false)
+  private String description;
+
+  @Column
+  private String image;
+
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private Category category;
+
+  @ManyToOne
+  @JoinColumn(name = "subcategory_id")
+  private SubCategory subcategory;
 
 }

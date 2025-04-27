@@ -1,4 +1,4 @@
-package com.ijse.BookStore.Repositary;
+package com.ijse.BookStore.Repository;
 
 import com.ijse.BookStore.Model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface BookRepositary extends JpaRepository<Book,Long> {
+public interface BookRepository extends JpaRepository<Book,Long> {
 
     
 }

@@ -1,11 +1,11 @@
-package com.ijse.BookStore.Repositary;
+package com.ijse.BookStore.Repository;
 
 import com.ijse.BookStore.Model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepositary extends JpaRepository<Order, Long>  {
+public interface OrderRepository extends JpaRepository<Order, Long>  {
 
     
 }
