@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.ijse.BookStore.Model.SubCategory;
-import com.ijse.BookStore.Repositary.SubCategoryRepositary;
+import com.ijse.BookStore.Repository.SubCategoryRepository;
 import com.ijse.BookStore.Service.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SubCategoryServiceImpl implements SubCategoryService {
-    private SubCategoryRepositary subcategoryRepositary;
+    private SubCategoryRepository subcategoryRepositary;
 
     @Autowired
-    public SubCategoryServiceImpl(SubCategoryRepositary subcategoryRepositary) {
+    public SubCategoryServiceImpl(SubCategoryRepository subcategoryRepositary) {
         this.subcategoryRepositary = subcategoryRepositary;
     }
     
