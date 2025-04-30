@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 
 import com.ijse.BookStore.Model.Category;
-import com.ijse.BookStore.Repositary.CategoryRepositary;
+import com.ijse.BookStore.Repository.CategoryRepository;
 import com.ijse.BookStore.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 
 
 public class CategoryServiceImpl implements CategoryService {
-    private CategoryRepositary categoryRepositary;
+    private CategoryRepository categoryRepositary;
 
       @Autowired
-    public CategoryServiceImpl(CategoryRepositary categoryRepositary){
+    public CategoryServiceImpl(CategoryRepository categoryRepositary){
         this.categoryRepositary = categoryRepositary;
 
 

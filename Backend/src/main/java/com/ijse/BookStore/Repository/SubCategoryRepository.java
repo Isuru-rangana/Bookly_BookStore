@@ -1,4 +1,4 @@
-package com.ijse.BookStore.Repositary;
+package com.ijse.BookStore.Repository;
 
 import com.ijse.BookStore.Model.SubCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 
-public interface SubCategoryRepositary extends JpaRepository<SubCategory,Long> {
+public interface SubCategoryRepository extends JpaRepository<SubCategory,Long> {
 
     
     

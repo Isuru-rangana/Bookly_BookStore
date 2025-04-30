@@ -1,4 +1,4 @@
-package com.ijse.BookStore.Repositary;
+package com.ijse.BookStore.Repository;
 
 import com.ijse.BookStore.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

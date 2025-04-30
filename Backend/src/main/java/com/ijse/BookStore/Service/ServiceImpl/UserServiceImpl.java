@@ -2,7 +2,7 @@ package com.ijse.BookStore.Service.ServiceImpl;
 
 import com.ijse.BookStore.Model.User;
 import com.ijse.BookStore.Model.UserRole;
-import com.ijse.BookStore.Repositary.UserRepository;
+import com.ijse.BookStore.Repository.UserRepository;
 import com.ijse.BookStore.Service.UserService;
 import com.ijse.BookStore.dto.LoginDTO;
 import com.ijse.BookStore.dto.UserRegistrationDTO;
