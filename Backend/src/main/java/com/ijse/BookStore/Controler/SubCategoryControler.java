@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 public class SubCategoryControler {
+    @Autowired
     private SubCategoryService subcategoryService;
 
     @GetMapping("/subcategores")
