@@ -1,33 +1,26 @@
 import React, { useState } from "react";
-import './Cart.css'
+import "./Cart.css";
 import axios from "axios";
 
 const Cart = ({ cart, setCart, handleChange }) => {
-
-   const [customerName, setCustomerName] = useState("");
-   const [customerAddress, setCustomerAddress] = useState("");
-   const [customerContactNumber, setCustomerContactNumber] = useState("");
-   const [bookName, setBookName] = useState("");
-   
-
-
-
+  const [customerName, setCustomerName] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerContactNumber, setCustomerContactNumber] = useState("");
+  const [bookName, setBookName] = useState("");
 
   const handleRemove = (id) => {
     const updatedCart = cart.filter((book) => book.id !== id);
     setCart(updatedCart);
   };
 
-
-
   const handleCheckout = () => {
     // Define order data
     const orderData = {
-      bookName: bookName, 
+      bookName: bookName,
       totalPrice: calculateTotalPrice(cart),
       bookQuantity: cart.length,
       customerName: "Customer Name",
-      address: "Customer Address", 
+      address: "Customer Address",
       contactNumber: "Customer Contact Number",
     };
 
@@ -41,14 +34,6 @@ const Cart = ({ cart, setCart, handleChange }) => {
         console.error(error);
       });
   };
-
-
-
-
-
-
-
-
 
   return (
     <article>
@@ -75,26 +60,26 @@ const Cart = ({ cart, setCart, handleChange }) => {
       </div>
 
       <input
-          type="text"
-          placeholder="Customer Name"
-          value={customerName}
-          onChange={(e) => setCustomerName(e.target.value)}
-        />
+        type="text"
+        placeholder="Customer Name"
+        value={customerName}
+        onChange={(e) => setCustomerName(e.target.value)}
+      />
 
-        <input
-          type="text"
-          placeholder="Customer Address"
-          value={customerAddress}
-          onChange={(e) => setCustomerAddress(e.target.value)}
-        />
+      <input
+        type="text"
+        placeholder="Customer Address"
+        value={customerAddress}
+        onChange={(e) => setCustomerAddress(e.target.value)}
+      />
 
-        <input
-          type="text"
-          placeholder="Contact Number"
-          value={customerContactNumber}
-          onChange={(e) => setCustomerContactNumber(e.target.value)}
-        />
-      
+      <input
+        type="text"
+        placeholder="Contact Number"
+        value={customerContactNumber}
+        onChange={(e) => setCustomerContactNumber(e.target.value)}
+      />
+
       <button onClick={handleCheckout}>Checkout</button>
     </article>
   );

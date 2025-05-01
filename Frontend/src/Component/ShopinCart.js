@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import './Cart.css';
-import { getCart, removeItemFromCart, updateItemQuantity, clearCart } from '../utils/cartUtils';
+import "./Cart.css";
+import {
+  getCart,
+  removeItemFromCart,
+  updateItemQuantity,
+  clearCart,
+} from "../utils/cartUtils";
 
 function ShoppingCart() {
   const [cart, setCart] = useState([]);
   const [customerInfo, setCustomerInfo] = useState({
-    name: '',
-    address: '',
-    contactNumber: ''
+    name: "",
+    address: "",
+    contactNumber: "",
   });
-  const [orderStatus, setOrderStatus] = useState({ message: '', type: '' });
+  const [orderStatus, setOrderStatus] = useState({ message: "", type: "" });
   const [placedOrder, setPlacedOrder] = useState(null);
   const [countdown, setCountdown] = useState(3);
   const navigate = useNavigate();
@@ -19,7 +24,7 @@ function ShoppingCart() {
   // Load cart from localStorage when component mounts
   useEffect(() => {
     const cartData = getCart();
-    console.log('[ShopinCart] Cart data loaded:', cartData);
+    console.log("[ShopinCart] Cart data loaded:", cartData);
     setCart(cartData);
   }, []);
 
@@ -29,49 +34,55 @@ function ShoppingCart() {
     if (placedOrder && countdown > 0) {
       timer = setTimeout(() => setCountdown(countdown - 1), 1000);
     } else if (placedOrder && countdown === 0) {
-      navigate('/');
+      navigate("/");
     }
     return () => clearTimeout(timer);
   }, [placedOrder, countdown, navigate]);
 
   const handleQuantityChange = (bookId, change) => {
     const updatedCart = updateItemQuantity(bookId, change);
-    console.log('[ShopinCart] Updated quantity for item:', bookId);
+    console.log("[ShopinCart] Updated quantity for item:", bookId);
     setCart(updatedCart);
   };
 
   const removeFromCart = (bookId) => {
     const updatedCart = removeItemFromCart(bookId);
-    console.log('[ShopinCart] Removed item from cart:', bookId);
+    console.log("[ShopinCart] Removed item from cart:", bookId);
     setCart(updatedCart);
   };
 
   const handleInfoChange = (e) => {
     const { name, value } = e.target;
-    setCustomerInfo(prev => ({
+    setCustomerInfo((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const calculateTotalPrice = () => {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+    return cart
+      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .toFixed(2);
   };
 
   const handleCheckout = async () => {
     // Validate customer information
-    if (!customerInfo.name || !customerInfo.address || !customerInfo.contactNumber) {
+    if (
+      !customerInfo.name ||
+      !customerInfo.address ||
+      !customerInfo.contactNumber
+    ) {
       setOrderStatus({
-        message: 'Please fill in all customer information',
-        type: 'error'
+        message: "Please fill in all customer information",
+        type: "error",
       });
       return;
     }
 
     // Prepare book details from cart items
-    const bookNames = cart.map(item => item.title).join(', ');
+    const bookNames = cart.map((item) => item.title).join(", ");
     const bookQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-    const bookIds = cart.map(item => item.id).join(',');
+    const bookIds = cart.map((item) => item.id).join(",");
 
     // Prepare order data - make sure field names match the backend model
     const orderData = {
@@ -79,21 +90,24 @@ function ShoppingCart() {
       customerAddress: customerInfo.address,
       customerContactNumber: customerInfo.contactNumber,
       totalAmount: parseFloat(calculateTotalPrice()),
-      bookName: bookNames,  
-      bookIds: bookIds,     
-      bookQuantity: bookQuantity  
+      bookName: bookNames,
+      bookIds: bookIds,
+      bookQuantity: bookQuantity,
     };
 
     try {
-      console.log('[ShopinCart] Sending order data:', orderData);
-      const response = await axios.post("http://localhost:9004/api/orders", orderData);
-      
+      console.log("[ShopinCart] Sending order data:", orderData);
+      const response = await axios.post(
+        "http://localhost:9004/api/orders",
+        orderData
+      );
+
       // Order successful
       setOrderStatus({
-        message: 'Order placed successfully!',
-        type: 'success'
+        message: "Order placed successfully!",
+        type: "success",
       });
-      
+
       // Store order details for display
       setPlacedOrder({
         id: response.data.id || Date.now(), // Use response ID or fallback to timestamp
@@ -104,18 +118,18 @@ function ShoppingCart() {
         items: [...cart], // Save a copy of cart items for order summary
         orderDate: new Date().toLocaleString(),
         bookName: bookNames,
-        bookQuantity: bookQuantity
+        bookQuantity: bookQuantity,
       });
-      
+
       // Clear cart
       clearCart();
       setCart([]);
-      
     } catch (error) {
-      console.error('[ShopinCart] Error placing order:', error);
+      console.error("[ShopinCart] Error placing order:", error);
       setOrderStatus({
-        message: error.response?.data || 'Error placing order. Please try again.',
-        type: 'error'
+        message:
+          error.response?.data || "Error placing order. Please try again.",
+        type: "error",
       });
     }
   };
@@ -128,34 +142,54 @@ function ShoppingCart() {
           <h3>Thank You for Your Order!</h3>
           <p>Your order has been successfully placed.</p>
           <p className="order-number">Order ID: {placedOrder.id}</p>
-          
+
           <div className="order-details">
             <h4>Order Summary</h4>
-            <p><strong>Order ID:</strong> {placedOrder.id}</p>
-            <p><strong>Customer:</strong> {placedOrder.customerName}</p>
-            <p><strong>Shipping Address:</strong> {placedOrder.customerAddress}</p>
-            <p><strong>Contact:</strong> {placedOrder.customerContactNumber}</p>
-            <p><strong>Order Date:</strong> {placedOrder.orderDate}</p>
-            <p><strong>Total Amount:</strong> ${placedOrder.totalAmount}</p>
-            <p><strong>Total Items:</strong> {placedOrder.bookQuantity}</p>
+            <p>
+              <strong>Order ID:</strong> {placedOrder.id}
+            </p>
+            <p>
+              <strong>Customer:</strong> {placedOrder.customerName}
+            </p>
+            <p>
+              <strong>Shipping Address:</strong> {placedOrder.customerAddress}
+            </p>
+            <p>
+              <strong>Contact:</strong> {placedOrder.customerContactNumber}
+            </p>
+            <p>
+              <strong>Order Date:</strong> {placedOrder.orderDate}
+            </p>
+            <p>
+              <strong>Total Amount:</strong> ${placedOrder.totalAmount}
+            </p>
+            <p>
+              <strong>Total Items:</strong> {placedOrder.bookQuantity}
+            </p>
           </div>
-          
+
           <div className="ordered-items">
             <h4>Ordered Items</h4>
-            {placedOrder.items.map(item => (
+            {placedOrder.items.map((item) => (
               <div key={item.id} className="ordered-item">
-                <p><strong>Book ID:</strong> {item.id}</p>
-                <p><strong>Title:</strong> {item.title}</p>
-                <p><strong>Price:</strong> ${item.price} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}</p>
+                <p>
+                  <strong>Book ID:</strong> {item.id}
+                </p>
+                <p>
+                  <strong>Title:</strong> {item.title}
+                </p>
+                <p>
+                  <strong>Price:</strong> ${item.price} x {item.quantity} = $
+                  {(item.price * item.quantity).toFixed(2)}
+                </p>
               </div>
             ))}
           </div>
-          
-          <p className="redirect-message">You will be redirected to the homepage in {countdown} seconds...</p>
-          <button 
-            className="continue-shopping"
-            onClick={() => navigate('/')}
-          >
+
+          <p className="redirect-message">
+            You will be redirected to the homepage in {countdown} seconds...
+          </p>
+          <button className="continue-shopping" onClick={() => navigate("/")}>
             Return to Home
           </button>
         </div>
@@ -166,19 +200,19 @@ function ShoppingCart() {
   return (
     <div className="shopping-cart-container">
       <h2>Your Shopping Cart</h2>
-      
+
       {orderStatus.message && (
         <div className={`order-status ${orderStatus.type}`}>
           {orderStatus.message}
         </div>
       )}
-      
+
       {cart.length === 0 ? (
         <div className="empty-cart">
           <p>Your cart is empty</p>
-          <button 
+          <button
             className="continue-shopping"
-            onClick={() => navigate('/allbook')}
+            onClick={() => navigate("/allbook")}
           >
             Continue Shopping
           </button>
@@ -189,7 +223,10 @@ function ShoppingCart() {
             {cart.map((item) => (
               <div key={item.id} className="cart-item">
                 <div className="item-image">
-                  <img src={item.image || 'https://via.placeholder.com/80x100'} alt={item.title} />
+                  <img
+                    src={item.image || "https://via.placeholder.com/80x100"}
+                    alt={item.title}
+                  />
                 </div>
                 <div className="item-details">
                   <h3>{item.title}</h3>
@@ -197,14 +234,18 @@ function ShoppingCart() {
                   <p className="price">${item.price} each</p>
                 </div>
                 <div className="item-quantity">
-                  <button onClick={() => handleQuantityChange(item.id, -1)}>-</button>
+                  <button onClick={() => handleQuantityChange(item.id, -1)}>
+                    -
+                  </button>
                   <span>{item.quantity}</span>
-                  <button onClick={() => handleQuantityChange(item.id, 1)}>+</button>
+                  <button onClick={() => handleQuantityChange(item.id, 1)}>
+                    +
+                  </button>
                 </div>
                 <div className="item-total">
                   ${(item.price * item.quantity).toFixed(2)}
                 </div>
-                <button 
+                <button
                   className="remove-button"
                   onClick={() => removeFromCart(item.id)}
                 >
@@ -260,28 +301,40 @@ function ShoppingCart() {
             </div>
 
             <div className="checkout-actions">
-              <button 
+              <button
                 className="continue-shopping"
-                onClick={() => navigate('/allbook')}
+                onClick={() => navigate("/allbook")}
               >
                 Continue Shopping
               </button>
-              <button 
-                className="checkout-button"
-                onClick={handleCheckout}
-              >
+              <button className="checkout-button" onClick={handleCheckout}>
                 Place Order
               </button>
             </div>
           </div>
         </>
       )}
-      
+
       {/* Debug section - remove in production */}
-      <div className="debug-section" style={{ marginTop: '50px', padding: '20px', border: '1px dashed #ccc', borderRadius: '8px' }}>
+      <div
+        className="debug-section"
+        style={{
+          marginTop: "50px",
+          padding: "20px",
+          border: "1px dashed #ccc",
+          borderRadius: "8px",
+        }}
+      >
         <h3>Debug Information (remove in production)</h3>
         <p>Cart Item Count: {cart.length}</p>
-        <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '4px', overflow: 'auto' }}>
+        <pre
+          style={{
+            background: "#f5f5f5",
+            padding: "10px",
+            borderRadius: "4px",
+            overflow: "auto",
+          }}
+        >
           {JSON.stringify(cart, null, 2)}
         </pre>
       </div>
@@ -290,4 +343,3 @@ function ShoppingCart() {
 }
 
 export default ShoppingCart;
-  

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
 function BookAdd() {
-  const [bookname, setBookname] = useState("");
+  const [bookName, setBookname] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [price, setPrice] = useState("");
@@ -28,10 +27,6 @@ function BookAdd() {
     fetchData();
   }, []);
 
-
-
-
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -46,13 +41,13 @@ function BookAdd() {
   }, []);
 
   const newBook = {
-    bookname,
+    bookName,
     title,
     author,
     price,
     description,
-    categoryId: selectedCategoryId, 
-    subcategoryId: selectedSubcategoryId, 
+    categoryId: selectedCategoryId,
+    subcategoryId: selectedSubcategoryId,
   };
 
   const handleSubmit = async (e) => {
@@ -72,17 +67,55 @@ function BookAdd() {
     <div>
       <form>
         <h1>Add book</h1>
-        <label>Book name:</label><br />
-        <input type="text" id="bookname" name="bookname" onChange={(e) => setBookname(e.target.value)} /><br />
-        <label>Title:</label><br />
-        <input type="text" id="title" name="title" onChange={(e) => setTitle(e.target.value)} /><br /><br />
-        <label>Author:</label><br />
-        <input type="text" id="author" name="author" onChange={(e) => setAuthor(e.target.value)} /><br />
-        <label>Price:</label><br />
-        <input type="text" id="price" name="price" onChange={(e) => setPrice(e.target.value)} /><br />
-        <label>Description:</label><br />
-        <input type="text" id="description" name="description" onChange={(e) => setDescription(e.target.value)} /><br /><br />
-        <label>Category:</label><br />
+        <label>Book name:</label>
+        <br />
+        <input
+          type="text"
+          id="bookName"
+          name="bookName"
+          onChange={(e) => setBookname(e.target.value)}
+        />
+        <br />
+        <label>Title:</label>
+        <br />
+        <input
+          type="text"
+          id="title"
+          name="title"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <br />
+        <br />
+        <label>Author:</label>
+        <br />
+        <input
+          type="text"
+          id="author"
+          name="author"
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+        <br />
+        <label>Price:</label>
+        <br />
+        <input
+          type="text"
+          id="price"
+          name="price"
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <br />
+        <label>Description:</label>
+        <br />
+        <input
+          type="text"
+          id="description"
+          name="description"
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <br />
+        <br />
+        <label>Category:</label>
+        <br />
         {/* <select
           name="category"
           id="category"
@@ -97,10 +130,19 @@ function BookAdd() {
           ))}
         </select> */}
 
-        <input type="text" id="category" name="Category" onChange={(e) => setCategories(e.target.value)} /><br /><br />
-        <label>SubCategory:</label><br />
-        <br /><br />
-{/* 
+        <input
+          type="text"
+          id="category"
+          name="Category"
+          onChange={(e) => setCategories(e.target.value)}
+        />
+        <br />
+        <br />
+        <label>SubCategory:</label>
+        <br />
+        <br />
+        <br />
+        {/* 
         <select
           name="subcategory"
           id="subcategory"
@@ -115,16 +157,20 @@ function BookAdd() {
           ))}
         </select> */}
 
+        <input
+          type="text"
+          id="subcategory"
+          name="Subcategory"
+          onChange={(e) => setSubcategories(e.target.value)}
+        />
+        <br />
+        <br />
 
-<input type="text" id="subcategory" name="Subcategory" onChange={(e) => setSubcategories(e.target.value)} /><br /><br />
-
-
-
-
-
-
-
-        <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
       </form>
