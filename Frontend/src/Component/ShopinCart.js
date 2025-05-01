@@ -277,14 +277,7 @@ function ShoppingCart() {
         </>
       )}
       
-      {/* Debug section - remove in production */}
-      <div className="debug-section" style={{ marginTop: '50px', padding: '20px', border: '1px dashed #ccc', borderRadius: '8px' }}>
-        <h3>Debug Information (remove in production)</h3>
-        <p>Cart Item Count: {cart.length}</p>
-        <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '4px', overflow: 'auto' }}>
-          {JSON.stringify(cart, null, 2)}
-        </pre>
-      </div>
+     
     </div>
   );
 }
