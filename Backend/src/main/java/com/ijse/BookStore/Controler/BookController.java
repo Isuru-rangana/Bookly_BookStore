@@ -19,13 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")  // Allow all origins for testing
 @RequestMapping("/books")
 @AllArgsConstructor
 public class BookController {
 
+  private static final Logger logger = LoggerFactory.getLogger(BookController.class);
   private final BookService bookService;
 
   @GetMapping("")
@@ -40,15 +43,18 @@ public class BookController {
 
   @PostMapping("")
   public ResponseEntity<Book> creatBook(
-      @RequestParam("image") MultipartFile image,
-      @RequestParam("bookName") String bookName,
-      @RequestParam("title") String title,
-      @RequestParam("author") String author,
-      @RequestParam("price") double price,
-      @RequestParam("description") String description,
+      @RequestParam(value = "image", required = true) MultipartFile image,
+      @RequestParam(value = "bookName", required = true) String bookName,
+      @RequestParam(value = "title", required = true) String title,
+      @RequestParam(value = "author", required = true) String author,
+      @RequestParam(value = "price", required = true) double price,
+      @RequestParam(value = "description", required = true) String description,
       @RequestParam(value = "category", required = false) Long categoryId,
       @RequestParam(value = "subcategory", required = false) Long subcategoryId) {
     try {
+      logger.info("Creating book: bookName={}, title={}, author={}, price={}", 
+                 bookName, title, author, price);
+      
       Book book = new Book();
       book.setBookName(bookName);
       book.setTitle(title);
@@ -57,10 +63,13 @@ public class BookController {
       book.setDescription(description);
 
       Book newBook = bookService.creatBook(book, image);
+      logger.info("Book created successfully with ID: {}", newBook.getId());
       return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
     } catch (IOException e) {
+      logger.error("IO Exception when creating book: {}", e.getMessage());
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     } catch (Exception e) {
+      logger.error("Exception when creating book: {}", e.getMessage(), e);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
   }

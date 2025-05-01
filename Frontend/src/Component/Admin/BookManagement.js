@@ -137,7 +137,7 @@ const BookManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const submitData = new FormData();
-    submitData.append('bookname', formData.bookname);
+    submitData.append('bookName', formData.bookname);
     submitData.append('title', formData.title);
     submitData.append('author', formData.author);
     submitData.append('price', formData.price);
