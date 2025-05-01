@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Container,
   Paper,
@@ -24,8 +24,8 @@ import {
   MenuItem,
   Grid,
   Box,
-} from '@mui/material';
-import { Edit, Delete, Add } from '@mui/icons-material';
+} from "@mui/material";
+import { Edit, Delete, Add } from "@mui/icons-material";
 
 const BookManagement = () => {
   const [books, setBooks] = useState([]);
@@ -33,18 +33,18 @@ const BookManagement = () => {
   const [open, setOpen] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [formData, setFormData] = useState({
-    bookname: '',
-    title: '',
-    author: '',
-    price: '',
-    description: '',
-    category_id: '',
+    bookName: "",
+    title: "",
+    author: "",
+    price: "",
+    description: "",
+    category_id: "",
     image: null,
-    imagePreview: '',
+    imagePreview: "",
   });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     fetchCategories();
@@ -53,19 +53,19 @@ const BookManagement = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:9004/categores');
+      const response = await axios.get("http://localhost:9004/categores");
       setCategories(response.data);
     } catch (err) {
-      setError('Failed to fetch categories');
+      setError("Failed to fetch categories");
     }
   };
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('http://localhost:9004/books');
+      const response = await axios.get("http://localhost:9004/books");
       setBooks(response.data);
     } catch (err) {
-      setError('Failed to fetch books');
+      setError("Failed to fetch books");
     }
   };
 
@@ -73,26 +73,26 @@ const BookManagement = () => {
     if (book) {
       setEditingBook(book);
       setFormData({
-        bookname: book.bookname,
+        bookName: book.bookName,
         title: book.title,
         author: book.author,
         price: book.price,
         description: book.description,
-        category_id: book.category?.id || '',
+        category_id: book.category?.id || "",
         image: null,
-        imagePreview: book.image || '',
+        imagePreview: book.image || "",
       });
     } else {
       setEditingBook(null);
       setFormData({
-        bookname: '',
-        title: '',
-        author: '',
-        price: '',
-        description: '',
-        category_id: '',
+        bookName: "",
+        title: "",
+        author: "",
+        price: "",
+        description: "",
+        category_id: "",
         image: null,
-        imagePreview: '',
+        imagePreview: "",
       });
     }
     setOpen(true);
@@ -102,34 +102,34 @@ const BookManagement = () => {
     setOpen(false);
     setEditingBook(null);
     setFormData({
-      bookname: '',
-      title: '',
-      author: '',
-      price: '',
-      description: '',
-      category_id: '',
+      bookName: "",
+      title: "",
+      author: "",
+      price: "",
+      description: "",
+      category_id: "",
       image: null,
-      imagePreview: '',
+      imagePreview: "",
     });
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         image: file,
-        imagePreview: URL.createObjectURL(file)
+        imagePreview: URL.createObjectURL(file),
       }));
     }
   };
@@ -137,64 +137,61 @@ const BookManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const submitData = new FormData();
-    submitData.append('bookName', formData.bookname);
-    submitData.append('title', formData.title);
-    submitData.append('author', formData.author);
-    submitData.append('price', formData.price);
-    submitData.append('description', formData.description);
+    submitData.append("bookName", formData.bookName);
+    submitData.append("title", formData.title);
+    submitData.append("author", formData.author);
+    submitData.append("price", formData.price);
+    submitData.append("description", formData.description);
     if (formData.category_id) {
-      submitData.append('category', formData.category_id);
+      submitData.append("category", formData.category_id);
     }
     if (formData.image) {
-      submitData.append('image', formData.image);
+      submitData.append("image", formData.image);
     }
 
     try {
       if (editingBook) {
         await axios.put(
-          `http://localhost:9004/books/${editingBook.id}`, 
+          `http://localhost:9004/books/${editingBook.id}`,
           submitData,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           }
         );
-        setSuccess('Book updated successfully');
+        setSuccess("Book updated successfully");
       } else {
-        await axios.post(
-          'http://localhost:9004/books', 
-          submitData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
-        setSuccess('Book added successfully');
+        await axios.post("http://localhost:9004/books", submitData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setSuccess("Book added successfully");
       }
       fetchBooks();
       handleClose();
     } catch (err) {
-      setError(err.response?.data || 'Failed to save book');
+      setError(err.response?.data || "Failed to save book");
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this book?')) {
+    if (window.confirm("Are you sure you want to delete this book?")) {
       try {
         await axios.delete(`http://localhost:9004/books/${id}`);
-        setSuccess('Book deleted successfully');
+        setSuccess("Book deleted successfully");
         fetchBooks();
       } catch (err) {
-        setError('Failed to delete book');
+        setError("Failed to delete book");
       }
     }
   };
 
-  const filteredBooks = selectedCategory === 'all'
-    ? books
-    : books.filter(book => book.category?.id === selectedCategory);
+  const filteredBooks =
+    selectedCategory === "all"
+      ? books
+      : books.filter((book) => book.category?.id === selectedCategory);
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -202,7 +199,7 @@ const BookManagement = () => {
         <Typography variant="h5" gutterBottom>
           Book Management
         </Typography>
-        
+
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {error}
@@ -252,7 +249,6 @@ const BookManagement = () => {
                 <TableCell>Title</TableCell>
                 <TableCell>Author</TableCell>
                 <TableCell>Price</TableCell>
-                <TableCell>Category</TableCell>
                 <TableCell align="right">Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -268,22 +264,27 @@ const BookManagement = () => {
                         sx={{
                           width: 50,
                           height: 50,
-                          objectFit: 'cover',
+                          objectFit: "cover",
                           borderRadius: 1,
                         }}
                       />
                     )}
                   </TableCell>
-                  <TableCell>{book.bookname}</TableCell>
+                  <TableCell>{book.bookName}</TableCell>
                   <TableCell>{book.title}</TableCell>
                   <TableCell>{book.author}</TableCell>
                   <TableCell>${book.price}</TableCell>
-                  <TableCell>{book.category?.cname || 'N/A'}</TableCell>
                   <TableCell align="right">
-                    <IconButton onClick={() => handleOpen(book)} color="primary">
+                    <IconButton
+                      onClick={() => handleOpen(book)}
+                      color="primary"
+                    >
                       <Edit />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(book.id)} color="error">
+                    <IconButton
+                      onClick={() => handleDelete(book.id)}
+                      color="error"
+                    >
                       <Delete />
                     </IconButton>
                   </TableCell>
@@ -295,7 +296,7 @@ const BookManagement = () => {
 
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
           <DialogTitle>
-            {editingBook ? 'Edit Book' : 'Add New Book'}
+            {editingBook ? "Edit Book" : "Add New Book"}
           </DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
@@ -306,9 +307,9 @@ const BookManagement = () => {
                     src={formData.imagePreview}
                     alt="Book preview"
                     sx={{
-                      width: '100%',
+                      width: "100%",
                       maxHeight: 200,
-                      objectFit: 'contain',
+                      objectFit: "contain",
                       mt: 2,
                       mb: 2,
                     }}
@@ -335,8 +336,8 @@ const BookManagement = () => {
                   required
                   fullWidth
                   label="Book Name"
-                  name="bookname"
-                  value={formData.bookname}
+                  name="bookName"
+                  value={formData.bookName}
                   onChange={handleChange}
                 />
               </Grid>
@@ -409,7 +410,7 @@ const BookManagement = () => {
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button onClick={handleSubmit} variant="contained">
-              {editingBook ? 'Update' : 'Add'}
+              {editingBook ? "Update" : "Add"}
             </Button>
           </DialogActions>
         </Dialog>
@@ -418,4 +419,4 @@ const BookManagement = () => {
   );
 };
 
-export default BookManagement; 
+export default BookManagement;
